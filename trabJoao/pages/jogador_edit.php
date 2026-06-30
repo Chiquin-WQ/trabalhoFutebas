@@ -131,4 +131,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </button>
 
 </form>
-kimura, arm lock
