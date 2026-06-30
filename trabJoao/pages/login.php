@@ -2,7 +2,7 @@
 
 session_start();
 
-// Se já estiver logado, vai direto para a página principal
+
 if (!empty($_SESSION['usuario_id'])) {
     header('Location: index.php');
     exit;
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $repo    = new UsuarioRepository();
         $usuario = $repo->buscarPorEmail($email);
 
-        // Compara o hash SHA256 da senha digitada com o hash salvo no banco
+    
         if ($usuario && hash('sha256', $senha) === $usuario->getSenha()) {
             $_SESSION['usuario_id']   = $usuario->getId();
             $_SESSION['usuario_nome'] = $usuario->getNome();
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — PokéCRUD</title>
+  <title>Login — futebol club</title>
   <link rel="stylesheet" href="../assets/style.css" />
 </head>
 <body class="login-body">

@@ -3,7 +3,7 @@
 <footer class="site-footer">
   <div class="footer-inner" style="display: table; width: 100%; padding: 10px 0;">
     <div style="display: table-cell; text-align: left; vertical-align: middle;">
-      <p><strong>⚽ FutManager</strong> &copy; <?= date('Y') ?> | Painel de Controle de Elenco</p>
+      <p><strong> FutManager</strong> &copy; <?= date('Y') ?> | Painel de Controle de Elenco</p>
       <p style="font-size: 0.8rem; color: #a0a0a0; margin-top: 4px;">
         <i class="fa-solid fa-code-branch"></i> Versão 1.0.0 Stable | Ambiente de Desenvolvimento
       </p>
