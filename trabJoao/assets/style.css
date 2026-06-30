@@ -1,6 +1,3 @@
-/* -------------------------------------------------
-   PokéCRUD - editorial library theme
-------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -8,24 +5,21 @@
 }
 
 :root {
-  --paper: #f4efe8;
-  --paper-soft: #fffaf1;
-  --ink: #191512;
-  --ink-soft: #4b433b;
-  --line: #1f1b16;
-  --muted: #776f63;
-  --orange: #c4572b;
-  --orange-dark: #8f3425;
-  --green: #69785a;
-  --green-dark: #3f4c36;
-  --yellow: #f0bd2f;
-  --yellow-soft: #f7dfa0;
-  --red: #b9332e;
-  --red-dark: #7e211d;
-  --red-soft: #f0d4c9;
-  --cream: #ede0cf;
-  --radius: 2px;
-  --shadow: 8px 8px 0 var(--ink);
+  --pitch-green: #2e5339;
+  --pitch-soft: #3b6649;
+  --chalk-white: #f7f9f6;
+  --ink: #111412;
+  --ink-soft: #2c3530;
+  --line: #111412;
+  --muted: #5c6b62;
+  --stadium-concrete: #e1e6e0;
+  --card-yellow: #f1c40f;
+  --card-yellow-soft: #fcf3cf;
+  --card-red: #c0392b;
+  --card-red-soft: #fadbd8;
+  
+  --radius: 0px;
+  --shadow: 6px 6px 0 var(--ink);
   --shadow-sm: 4px 4px 0 var(--ink);
 }
 
@@ -41,58 +35,60 @@ body {
   flex-direction: column;
   color: var(--ink);
   background:
-    linear-gradient(90deg, rgba(24,23,20,.05) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(24,23,20,.04) 1px, transparent 1px),
-    var(--paper);
-  background-size: 44px 44px, 44px 44px, auto;
-  font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    linear-gradient(90deg, rgba(17,20,18,.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(17,20,18,.03) 1px, transparent 1px),
+    var(--chalk-white);
+  background-size: 30px 30px, 30px 30px, auto;
+  font-family: "Impact", "Arial Black", system-ui, sans-serif;
   font-size: 15px;
   line-height: 1.6;
 }
 
+p, label, td, input, select {
+  font-family: "Arial", system-ui, sans-serif;
+  font-weight: normal;
+}
+
 a {
   color: var(--ink);
-  text-decoration-color: var(--red);
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--pitch-green);
+  text-decoration-thickness: 3px;
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--red-dark);
+  color: var(--pitch-green);
 }
 
 ::selection {
-  background: var(--yellow);
+  background: var(--card-yellow);
   color: var(--ink);
 }
 
-/* Header */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  color: var(--paper-soft);
-  background: var(--red);
-  border-bottom: 4px solid var(--ink);
+  color: var(--chalk-white);
+  background: var(--ink);
+  border-bottom: 4px solid var(--pitch-green);
 }
 
 .site-header::after {
   content: "";
   display: block;
-  height: 8px;
+  height: 6px;
   background:
     linear-gradient(90deg,
-      var(--paper-soft) 0 22%,
-      var(--ink) 22% 28%,
-      var(--red-dark) 28% 54%,
-      var(--yellow) 54% 78%,
-      var(--ink) 78% 100%);
-  border-top: 2px solid var(--ink);
+      var(--pitch-green) 0 40%,
+      var(--card-yellow) 40% 50%,
+      var(--ink) 50% 60%,
+      var(--card-red) 60% 100%);
 }
 
 .header-inner {
   max-width: 1120px;
-  min-height: 74px;
+  min-height: 70px;
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
@@ -103,26 +99,21 @@ a:hover {
 .logo {
   position: relative;
   flex-shrink: 0;
-  color: var(--paper-soft);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: .02em;
+  color: var(--chalk-white);
+  font-family: "Impact", sans-serif;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
   text-decoration: none;
 }
 
 .logo::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -7px;
-  height: 2px;
-  background: var(--paper-soft);
+  content: " ⚽";
+  font-size: 1.2rem;
 }
 
 .logo:hover {
-  color: var(--yellow-soft);
+  color: var(--card-yellow);
   text-decoration: none;
 }
 
@@ -135,23 +126,23 @@ a:hover {
 
 .nav a,
 .btn-logout {
-  color: var(--paper-soft);
-  border: 1px solid rgba(244,239,230,.38);
+  color: var(--chalk-white);
+  border: 2px solid var(--pitch-green);
   background: transparent;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: .08em;
-  font-size: .72rem;
-  font-weight: 800;
-  padding: 8px 11px;
-  transition: background .15s ease, color .15s ease, border-color .15s ease;
+  font-size: .78rem;
+  font-weight: 900;
+  padding: 6px 14px;
+  transition: all .15s ease;
 }
 
 .nav a:hover,
 .btn-logout:hover {
   color: var(--ink);
-  background: var(--paper-soft);
-  border-color: var(--paper-soft);
+  background: var(--card-yellow);
+  border-color: var(--card-yellow);
 }
 
 .header-user {
@@ -162,14 +153,14 @@ a:hover {
 }
 
 .user-name {
-  color: var(--paper-soft);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: .95rem;
-  font-weight: 700;
+  color: var(--chalk-white);
+  font-family: "Impact", sans-serif;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
   line-height: 1;
 }
 
-/* Layout */
 .container {
   position: relative;
   width: 100%;
@@ -181,9 +172,9 @@ a:hover {
 
 .site-footer {
   margin-top: auto;
-  color: var(--paper-soft);
-  background: var(--red-dark);
-  border-top: 4px solid var(--ink);
+  color: var(--chalk-white);
+  background: var(--ink);
+  border-top: 4px solid var(--pitch-green);
 }
 
 .footer-inner {
@@ -191,51 +182,50 @@ a:hover {
   margin: 0 auto;
   padding: 20px 24px;
   text-align: center;
-  color: rgba(244,239,230,.76);
+  color: rgba(247,249,246,.6);
   font-size: .8rem;
-  letter-spacing: .04em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
-/* Page header */
 .page-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 18px;
   margin-bottom: 26px;
-  padding-bottom: 16px;
-  border-bottom: 3px solid var(--ink);
+  padding-bottom: 12px;
+  border-bottom: 4px solid var(--ink);
 }
 
 .page-header h2 {
   position: relative;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.9rem, 3vw, 2.6rem);
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-family: "Impact", sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 40px;
-  padding: 9px 16px;
-  border: 2px solid var(--ink);
+  min-height: 42px;
+  padding: 9px 20px;
+  border: 3px solid var(--ink);
   border-radius: var(--radius);
   color: var(--ink);
-  background: var(--paper-soft);
+  background: var(--chalk-white);
   box-shadow: var(--shadow-sm);
-  font-size: .82rem;
-  font-weight: 900;
-  letter-spacing: .04em;
+  font-family: "Impact", sans-serif;
+  font-size: .9rem;
+  letter-spacing: .06em;
   text-transform: uppercase;
   cursor: pointer;
   text-decoration: none;
-  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  transition: transform .1s ease, box-shadow .1s ease;
 }
 
 .btn:hover {
@@ -251,37 +241,36 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--red);
-  color: var(--paper-soft);
+  background: var(--pitch-green);
+  color: var(--chalk-white);
 }
 
 .btn-primary:hover {
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--pitch-soft);
+  color: var(--chalk-white);
 }
 
 .btn-editar {
-  background: var(--yellow);
+  background: var(--card-yellow);
   color: var(--ink);
 }
 
 .btn-editar:hover {
-  background: var(--paper-soft);
-  color: var(--ink);
+  background: var(--chalk-white);
 }
 
 .btn-excluir {
-  background: var(--ink);
-  color: var(--paper-soft);
+  background: var(--card-red);
+  color: var(--chalk-white);
 }
 
 .btn-excluir:hover {
-  background: var(--red);
-  color: var(--paper-soft);
+  background: var(--ink);
+  color: var(--chalk-white);
 }
 
 .btn-ghost {
-  background: var(--paper);
+  background: var(--stadium-concrete);
 }
 
 .btn-full {
@@ -290,35 +279,37 @@ a:hover {
 
 .btn-sm {
   min-height: 34px;
-  padding: 6px 10px;
-  box-shadow: 3px 3px 0 var(--ink);
-  font-size: .72rem;
+  padding: 6px 12px;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: .75rem;
 }
 
-/* Alerts */
 .alert {
   position: relative;
-  padding: 13px 16px;
-  margin-bottom: 20px;
-  border: 2px solid var(--ink);
+  padding: 14px 18px;
+  margin-bottom: 25px;
+  border: 3px solid var(--ink);
   box-shadow: var(--shadow-sm);
-  font-weight: 800;
+  font-family: "Impact", sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .alert-erro {
   color: var(--ink);
-  background: var(--red-soft);
+  background: var(--card-red-soft);
+  border-left: 10px solid var(--card-red);
 }
 
 .alert-sucesso {
   color: var(--ink);
-  background: var(--yellow-soft);
+  background: var(--card-yellow-soft);
+  border-left: 10px solid var(--card-yellow);
 }
 
-/* Tables */
 .table-wrapper {
-  background: var(--paper-soft);
-  border: 2px solid var(--ink);
+  background: var(--chalk-white);
+  border: 3px solid var(--ink);
   box-shadow: var(--shadow);
   overflow-x: auto;
 }
@@ -330,26 +321,25 @@ a:hover {
 }
 
 .data-table th {
-  padding: 13px 16px;
-  color: var(--paper-soft);
-  background: var(--red-dark);
-  border-bottom: 2px solid var(--ink);
-  font-size: .72rem;
-  font-weight: 900;
-  text-align: left;
+  padding: 14px 16px;
+  color: var(--chalk-white);
+  background: var(--pitch-green);
+  border-bottom: 3px solid var(--ink);
+  font-family: "Impact", sans-serif;
+  font-size: .85rem;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  letter-spacing: .09em;
 }
 
 .data-table td {
   padding: 15px 16px;
-  border-bottom: 2px solid rgba(24,23,20,.16);
+  border-bottom: 2px solid rgba(17,20,18,.15);
   color: var(--ink);
-  background: rgba(251,247,239,.78);
+  background: #ffffff;
 }
 
 .data-table tr:nth-child(even) td {
-  background: rgba(237,227,211,.64);
+  background: #f2f6f3;
 }
 
 .data-table tr:last-child td {
@@ -357,12 +347,14 @@ a:hover {
 }
 
 .data-table tr:hover td {
-  background: rgba(240,189,47,.2);
+  background: rgba(46,83,57,.12);
 }
 
 .data-table strong {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.05rem;
+  font-family: "Impact", sans-serif;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  font-size: 1.15rem;
 }
 
 .acoes {
@@ -371,30 +363,27 @@ a:hover {
   flex-wrap: wrap;
 }
 
-/* Badge */
 .badge {
   display: inline-flex;
   align-items: center;
   min-height: 28px;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border: 2px solid var(--ink);
-  border-radius: 999px;
-  color: var(--ink);
-  background: var(--yellow-soft);
-  font-size: .74rem;
-  font-weight: 900;
-  letter-spacing: .04em;
+  color: var(--chalk-white);
+  background: var(--ink);
+  font-family: "Impact", sans-serif;
+  font-size: .8rem;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 
-/* Empty state */
 .empty-state {
   position: relative;
   max-width: 620px;
   padding: 56px 32px;
   color: var(--ink);
-  background: var(--paper-soft);
-  border: 2px dashed var(--ink);
+  background: var(--chalk-white);
+  border: 3px dashed var(--pitch-green);
   box-shadow: var(--shadow);
   text-align: center;
 }
@@ -403,17 +392,17 @@ a:hover {
   max-width: 360px;
   margin: 0 auto 22px;
   color: var(--ink-soft);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.2rem;
+  font-family: "Impact", sans-serif;
+  font-size: 1.4rem;
+  text-transform: uppercase;
 }
 
-/* Forms */
 .form-card,
 .confirm-card,
 .login-card {
   position: relative;
-  background: var(--paper-soft);
-  border: 2px solid var(--ink);
+  background: var(--chalk-white);
+  border: 3px solid var(--ink);
   box-shadow: var(--shadow);
 }
 
@@ -430,9 +419,9 @@ a:hover {
   display: block;
   margin-bottom: 7px;
   color: var(--ink);
-  font-size: .76rem;
-  font-weight: 900;
-  letter-spacing: .08em;
+  font-family: "Impact", sans-serif;
+  font-size: .85rem;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 
@@ -448,9 +437,9 @@ a:hover {
   border-radius: var(--radius);
   outline: none;
   color: var(--ink);
-  background: #fffdf7;
+  background: #ffffff;
   font: inherit;
-  transition: box-shadow .15s ease, background .15s ease, transform .15s ease;
+  transition: all .15s ease;
 }
 
 .form-group select {
@@ -459,8 +448,9 @@ a:hover {
 
 .form-group input:focus,
 .form-group select:focus {
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(240,189,47,.42);
+  background: #ffffff;
+  border-color: var(--pitch-green);
+  box-shadow: 0 0 0 4px rgba(46,83,57,.25);
 }
 
 .form-actions {
@@ -470,7 +460,6 @@ a:hover {
   margin-top: 10px;
 }
 
-/* Delete confirmation */
 .confirm-card {
   max-width: 560px;
   padding: 42px 34px;
@@ -479,21 +468,23 @@ a:hover {
 
 .confirm-card h3 {
   margin-bottom: 10px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.55rem;
+  font-family: "Impact", sans-serif;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  color: var(--card-red);
 }
 
 .confirm-card p {
   max-width: 440px;
   margin: 0 auto 28px;
   color: var(--ink-soft);
+  font-weight: bold;
 }
 
 .confirm-card .form-actions {
   justify-content: center;
 }
 
-/* Login */
 .login-body {
   min-height: 100vh;
   display: flex;
@@ -501,31 +492,33 @@ a:hover {
   justify-content: center;
   padding: 24px;
   background:
-    linear-gradient(90deg, rgba(24,23,20,.05) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(24,23,20,.04) 1px, transparent 1px),
-    var(--paper);
-  background-size: 44px 44px, 44px 44px, auto;
+    linear-gradient(90deg, rgba(17,20,18,.04) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(17,20,18,.04) 1px, transparent 1px),
+    var(--stadium-concrete);
+  background-size: 40px 40px, 40px 40px, auto;
 }
 
 .login-card {
   width: 100%;
   max-width: 430px;
   padding: 42px 36px 36px;
+  border-top: 8px solid var(--pitch-green);
 }
 
 .login-logo {
   margin-bottom: 6px;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 2rem;
-  font-weight: 700;
+  font-family: "Impact", sans-serif;
+  font-size: 2.5rem;
+  text-transform: uppercase;
   text-align: center;
+  letter-spacing: 0.02em;
 }
 
 .login-title {
   margin-bottom: 30px;
   color: var(--muted);
-  font-size: .78rem;
+  font-size: .85rem;
   font-weight: 900;
   letter-spacing: .12em;
   text-align: center;
@@ -562,26 +555,8 @@ a:hover {
     padding: 28px 16px 48px;
   }
 
-  .page-header {
+.page-header {
     align-items: flex-start;
     flex-direction: column;
   }
-
-  .form-card,
-  .confirm-card,
-  .login-card {
-    padding: 28px 22px;
-    box-shadow: 5px 5px 0 var(--ink);
   }
-
-  .form-actions,
-  .acoes {
-    flex-direction: column;
-  }
-
-  .btn,
-  .btn-sm {
-    width: 100%;
-  }
-
-}
