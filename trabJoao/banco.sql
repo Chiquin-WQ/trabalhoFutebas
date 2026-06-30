@@ -1,58 +1,46 @@
--- ============================================================
---  PokéCRUD — Script de criação do banco de dados
---  Execute este arquivo no phpMyAdmin ou via terminal MySQL
--- ============================================================
+CREATE TABLE `campeonatos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `temporada` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE DATABASE IF NOT EXISTS crud_pokemon
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+CREATE TABLE `times` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `cidade` varchar(100) DEFAULT NULL,
+  `tecnico` varchar(100) DEFAULT NULL,
+  `escudo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-USE crud_pokemon;
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- ------------------------------------------------------------
---  Tabela de usuários
--- ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS usuario (
-    id        INT          NOT NULL AUTO_INCREMENT,
-    nome      VARCHAR(100) NOT NULL,
-    email     VARCHAR(150) NOT NULL,
-    senha     CHAR(64)     NOT NULL COMMENT 'Hash SHA256 da senha',
-    criado_em DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_email (email)
-) ENGINE=InnoDB;
+CREATE TABLE `jogadores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `idade` int(11) DEFAULT NULL,
+  `posicao` varchar(50) DEFAULT NULL,
+  `numero_camisa` int(11) DEFAULT NULL,
+  `overall` int(11) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `id_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_time` (`id_time`),
+  CONSTRAINT `jogadores_ibfk_1` FOREIGN KEY (`id_time`) REFERENCES `times` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- ------------------------------------------------------------
---  Tabela de pokémons
--- ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS pokemon (
-    id         INT          NOT NULL AUTO_INCREMENT,
-    nome       VARCHAR(100) NOT NULL,
-    tipo       VARCHAR(50)  NOT NULL,
-    nivel      INT          NOT NULL DEFAULT 1,
-    usuario_id INT          NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_pokemon_usuario
-        FOREIGN KEY (usuario_id) REFERENCES usuario(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- ------------------------------------------------------------
---  Usuário de teste
---  Email: admin@email.com
---  Senha: 123456  (SHA256 = 8d969eef6ecad3c29a3a629280e686cf...)
--- ------------------------------------------------------------
-INSERT INTO usuario (nome, email, senha) VALUES
-(
-    'Ash Ketchum',
-    'admin@email.com',
-    '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'
-);
-
--- ------------------------------------------------------------
---  Pokémons de exemplo vinculados ao usuário acima (id=1)
--- ------------------------------------------------------------
-INSERT INTO pokemon (nome, tipo, nivel, usuario_id) VALUES
-    ('Pikachu',    'Elétrico', 35, 1),
-    ('Charmander', 'Fogo',     20, 1),
-    ('Squirtle',   'Água',     18, 1);
+CREATE TABLE `jogador_campeonato` (
+  `id_jogador` int(11) DEFAULT NULL,
+  `id_campeonato` int(11) DEFAULT NULL,
+  KEY `id_jogador` (`id_jogador`),
+  KEY `id_campeonato` (`id_campeonato`),
+  CONSTRAINT `jogador_campeonato_ibfk_1` FOREIGN KEY (`id_jogador`) REFERENCES `jogadores` (`id`),
+  CONSTRAINT `jogador_campeonato_ibfk_2` FOREIGN KEY (`id_campeonato`) REFERENCES `campeonatos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
