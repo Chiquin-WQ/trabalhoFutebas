@@ -11,16 +11,17 @@ class JogadorRepository {
         $this->pdo = getConexao();
     }
 
-    /** @return Jogador[] */
     public function listar(): array {
-
         $stmt = $this->pdo->query(
-            'SELECT * FROM jogadores ORDER BY nome ASC'
+            'SELECT j.*, t.nome AS nome_time 
+             FROM jogadores j
+             INNER JOIN times t ON j.id_time = t.id 
+             ORDER BY j.nome ASC'
         );
 
         $lista = [];
 
-        foreach ($stmt->fetchAll() as $dados) {
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $dados) {
             $lista[] = new Jogador($dados);
         }
 
@@ -28,16 +29,18 @@ class JogadorRepository {
     }
 
     public function buscarPorId(int $id): ?Jogador {
-
         $stmt = $this->pdo->prepare(
-            'SELECT * FROM jogadores WHERE id = :id LIMIT 1'
+            'SELECT j.*, t.nome AS nome_time 
+             FROM jogadores j
+             INNER JOIN times t ON j.id_time = t.id 
+             WHERE j.id = :id LIMIT 1'
         );
 
         $stmt->execute([
             ':id' => $id
         ]);
 
-        $dados = $stmt->fetch();
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($dados) {
             return new Jogador($dados);
@@ -47,9 +50,7 @@ class JogadorRepository {
     }
 
     public function salvar(Jogador $jogador): void {
-
         if ($jogador->getId() > 0) {
-
             $stmt = $this->pdo->prepare(
                 'UPDATE jogadores
                 SET
@@ -64,14 +65,14 @@ class JogadorRepository {
             );
 
             $stmt->execute([
-                ':nome'           => $jogador->getNome(),
-                ':idade'          => $jogador->getIdade(),
-                ':posicao'        => $jogador->getPosicao(),
-                ':numero_camisa'  => $jogador->getNumeroCamisa(),
-                ':overall'        => $jogador->getOverall(),
-                ':foto'           => $jogador->getFoto(),
-                ':id_time'        => $jogador->getIdTime(),
-                ':id'             => $jogador->getId()
+                ':nome'          => $jogador->getNome(),
+                ':idade'         => $jogador->getIdade(),
+                ':posicao'       => $jogador->getPosicao(),
+                ':numero_camisa' => $jogador->getNumeroCamisa(),
+                ':overall'       => $jogador->getOverall(),
+                ':foto'          => $jogador->getFoto(),
+                ':id_time'       => $jogador->getIdTime(),
+                ':id'            => $jogador->getId()
             ]);
 
             return;
@@ -101,13 +102,13 @@ class JogadorRepository {
         );
 
         $stmt->execute([
-            ':nome'           => $jogador->getNome(),
-            ':idade'          => $jogador->getIdade(),
-            ':posicao'        => $jogador->getPosicao(),
-            ':numero_camisa'  => $jogador->getNumeroCamisa(),
-            ':overall'        => $jogador->getOverall(),
-            ':foto'           => $jogador->getFoto(),
-            ':id_time'        => $jogador->getIdTime()
+            ':nome'          => $jogador->getNome(),
+            ':idade'         => $jogador->getIdade(),
+            ':posicao'       => $jogador->getPosicao(),
+            ':numero_camisa' => $jogador->getNumeroCamisa(),
+            ':overall'       => $jogador->getOverall(),
+            ':foto'          => $jogador->getFoto(),
+            ':id_time'       => $jogador->getIdTime()
         ]);
 
         $jogador->registrarIdGerado(
@@ -124,7 +125,6 @@ class JogadorRepository {
         string $foto,
         int $idTime
     ): void {
-
         $jogador = Jogador::novo(
             $nome,
             $idade,
@@ -148,7 +148,6 @@ class JogadorRepository {
         string $foto,
         int $idTime
     ): void {
-
         $jogador = $this->buscarPorId($id);
 
         if ($jogador === null) {
@@ -168,7 +167,6 @@ class JogadorRepository {
     }
 
     public function excluir(int $id): void {
-
         $stmt = $this->pdo->prepare(
             'DELETE FROM jogadores WHERE id = :id'
         );

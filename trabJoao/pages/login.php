@@ -2,7 +2,6 @@
 
 session_start();
 
-
 if (!empty($_SESSION['usuario_id'])) {
     header('Location: index.php');
     exit;
@@ -23,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $repo    = new UsuarioRepository();
         $usuario = $repo->buscarPorEmail($email);
 
-    
         if ($usuario && hash('sha256', $senha) === $usuario->getSenha()) {
             $_SESSION['usuario_id']   = $usuario->getId();
             $_SESSION['usuario_nome'] = $usuario->getNome();
@@ -41,14 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — futebol club</title>
+  <title>Acesso ao Sistema — Futebas Club</title>
   <link rel="stylesheet" href="../assets/style.css" />
 </head>
 <body class="login-body">
 
 <div class="login-card">
-  <div class="login-logo">PokéCRUD</div>
-  <h1 class="login-title">Entrar no sistema</h1>
+  <div class="login-logo">FUTEBAS FC</div>
+  <h1 class="login-title">Área Técnica — Entrar</h1>
 
   <?php if ($erro !== ''): ?>
     <div class="alert alert-erro"><?= htmlspecialchars($erro) ?></div>
@@ -56,19 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form method="POST" action="login.php">
     <div class="form-group">
-      <label for="email">E-mail</label>
+      <label for="email">E-mail do Treinador</label>
       <input
         type="email"
         id="email"
         name="email"
-        placeholder="seu@email.com"
+        placeholder="professor@futebas.com"
         value="<?= htmlspecialchars($emailFormulario) ?>"
         required
       />
     </div>
 
     <div class="form-group">
-      <label for="senha">Senha</label>
+      <label for="senha">Chave de Acesso</label>
       <input
         type="password"
         id="senha"
@@ -78,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       />
     </div>
 
-    <button type="submit" class="btn btn-primary btn-full">Entrar</button>
+    <button type="submit" class="btn btn-primary btn-full">Entrar em Campo</button>
   </form>
 
 </div>
