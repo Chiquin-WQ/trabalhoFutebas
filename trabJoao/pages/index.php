@@ -1,56 +1,56 @@
 <?php
 
 require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../repository/JogadorRepository.php';
+require_once __DIR__ . '/../Repository/JogadorRepository.php';
+require_once __DIR__ . '/../config/database.php';
 
-$repo      = new JogadorRepository();
-$jogadores = $repo->listarPorUsuario($_SESSION['usuario_id']);
+$pdo = getConexao();
+$repo = new JogadorRepository($pdo);
+$jogadores = $repo->listarTodos();
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header">
-  <h2>Meus Jogadores</h2>
+  <h2>Painel de Elenco - Jogadores</h2>
   <a href="jogador_create.php" class="btn btn-primary">+ Novo Jogador</a>
 </div>
 
-<!-- PAINEL DE BUSCA E FILTROS -->
 <div class="filtros-wrapper">
   <input
     type="text"
     id="buscaNome"
-    placeholder="🔍 Buscar por nome..."
+    placeholder="Buscar por nome..."
     class="input-busca"
   />
 
   <select id="filtroPosicao" class="input-select">
     <option value="">Todas as posições</option>
     <option value="Goleiro">Goleiro</option>
-    <option value="Defensor">Defensor</option>
-    <option value="Meio-campo">Meio-campo</option>
+    <option value="Zagueiro">Zagueiro</option>
+    <option value="Lateral">Lateral</option>
+    <option value="Meio-Campista">Meio-Campista</option>
     <option value="Atacante">Atacante</option>
   </select>
 
-
   <div class="toggle-view">
     <button class="btn btn-sm btn-toggle active" id="btnTabela" onclick="alternarView('tabela')">
-      ☰ Tabela
+      Tabela
     </button>
     <button class="btn btn-sm btn-toggle" id="btnCards" onclick="alternarView('cards')">
-      ⊞ Cards
+      Cards
     </button>
   </div>
 </div>
 
 <?php if (empty($jogadores)): ?>
   <div class="empty-state">
-    <p>Você ainda não cadastrou nenhum jogador.</p>
-    <a href="jogador_create.php" class="btn btn-primary">Cadastrar agora</a>
+    <p>Nenhum jogador foi cadastrado no sistema até o momento.</p>
+    <a href="jogador_create.php" class="btn btn-primary">Cadastrar Primeiro Jogador</a>
   </div>
 
 <?php else: ?>
 
-  
   <div id="viewTabela" class="table-wrapper">
     <table class="data-table">
       <thead>
@@ -58,9 +58,12 @@ require_once __DIR__ . '/../includes/header.php';
           <th>#</th>
           <th>Foto</th>
           <th>Nome</th>
+          <th>Idade</th>
           <th>Posição</th>
-          <th>Clube</th>
-          <th>Nacionalidade</th>
+          <th>Camisa</th>
+          <th>Overall</th>
+          <th>Time (ID)</th>
+          <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -73,20 +76,23 @@ require_once __DIR__ . '/../includes/header.php';
           >
             <td><?= $jogador->getId() ?></td>
             <td>
-              <?php if ($jogador->getFoto()): ?>
+              <?php if ($jogador->getFoto() && $jogador->getFoto() !== 'uploads/default_avatar.png'): ?>
                 <img
                   src="/uploads/jogadores/<?= htmlspecialchars($jogador->getFoto()) ?>"
                   alt="<?= htmlspecialchars($jogador->getNome()) ?>"
                   class="avatar-tabela"
                 />
               <?php else: ?>
-                <div class="avatar-placeholder">⚽</div>
+                <div class="avatar-placeholder">-</div>
               <?php endif; ?>
             </td>
             <td><strong><?= htmlspecialchars($jogador->getNome()) ?></strong></td>
+            <td><?= $jogador->getIdade() ?> anos</td>
             <td><span class="badge badge-posicao"><?= htmlspecialchars($jogador->getPosicao()) ?></span></td>
-            <td><?= htmlspecialchars($jogador->getClube()) ?></td>
-            <td><?= htmlspecialchars($jogador->getNacionalidade()) ?></td>
+            <td>Nº <?= $jogador->getNumeroCamisa() ?></td>
+            <td><strong><?= $jogador->getOverall() ?></strong></td>
+            <td>#<?= $jogador->getIdTime() ?></td>
+            <td><span class="badge badge-status"><?= htmlspecialchars($jogador->getStatus()) ?></span></td>
             <td class="acoes">
               <a href="jogador_edit.php?id=<?= $jogador->getId() ?>" class="btn btn-sm btn-editar">Editar</a>
               <a href="jogador_delete.php?id=<?= $jogador->getId() ?>" class="btn btn-sm btn-excluir">Excluir</a>
@@ -97,7 +103,6 @@ require_once __DIR__ . '/../includes/header.php';
     </table>
   </div>
 
-  
   <div id="viewCards" class="cards-wrapper" style="display:none;">
     <?php foreach ($jogadores as $jogador): ?>
       <div
@@ -106,22 +111,25 @@ require_once __DIR__ . '/../includes/header.php';
         data-posicao="<?= htmlspecialchars($jogador->getPosicao()) ?>"
       >
         <div class="card-foto">
-          <?php if ($jogador->getFoto()): ?>
+          <?php if ($jogador->getFoto() && $jogador->getFoto() !== 'uploads/default_avatar.png'): ?>
             <img
               src="/uploads/jogadores/<?= htmlspecialchars($jogador->getFoto()) ?>"
               alt="<?= htmlspecialchars($jogador->getNome()) ?>"
               class="avatar-card"
             />
           <?php else: ?>
-            <div class="avatar-placeholder-card">⚽</div>
+            <div class="avatar-placeholder-card">-</div>
           <?php endif; ?>
         </div>
 
         <div class="card-info">
           <h3><?= htmlspecialchars($jogador->getNome()) ?></h3>
           <span class="badge badge-posicao"><?= htmlspecialchars($jogador->getPosicao()) ?></span>
-          <p>🏟️ <?= htmlspecialchars($jogador->getClube()) ?></p>
-          <p>🌍 <?= htmlspecialchars($jogador->getNacionalidade()) ?></p>
+          <p>Camisa: <?= $jogador->getNumeroCamisa() ?></p>
+          <p>Idade: <?= $jogador->getIdade() ?> anos</p>
+          <p>Overall: <strong><?= $jogador->getOverall() ?></strong></p>
+          <p>Time ID: #<?= $jogador->getIdTime() ?></p>
+          <p>Status: <strong><?= htmlspecialchars($jogador->getStatus()) ?></strong></p>
         </div>
 
         <div class="card-acoes">
@@ -133,7 +141,6 @@ require_once __DIR__ . '/../includes/header.php';
   </div>
 
 <?php endif; ?>
-
 
 <style>
   .filtros-wrapper {
@@ -172,7 +179,6 @@ require_once __DIR__ . '/../includes/header.php';
     border-color: #3b82f6;
   }
 
-  /* AVATAR TABELA */
   .avatar-tabela {
     width: 40px;
     height: 40px;
@@ -192,7 +198,6 @@ require_once __DIR__ . '/../includes/header.php';
     font-size: 18px;
   }
 
-  /* CARDS */
   .cards-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -250,15 +255,7 @@ require_once __DIR__ . '/../includes/header.php';
     gap: 8px;
     justify-content: center;
   }
-
-  .sem-resultado {
-    text-align: center;
-    color: #999;
-    padding: 30px;
-    font-size: 15px;
-  }
 </style>
-
 
 <script>
   const buscaInput    = document.getElementById('buscaNome');
@@ -268,7 +265,6 @@ require_once __DIR__ . '/../includes/header.php';
     const busca   = buscaInput.value.toLowerCase().trim();
     const posicao = filtroSelect.value;
 
-    // Filtra linhas da tabela
     document.querySelectorAll('.jogador-row').forEach(row => {
       const nome     = row.dataset.nome;
       const pos      = row.dataset.posicao;
@@ -276,7 +272,6 @@ require_once __DIR__ . '/../includes/header.php';
       row.style.display = ok ? '' : 'none';
     });
 
-    // Filtra cards
     document.querySelectorAll('.jogador-card').forEach(card => {
       const nome     = card.dataset.nome;
       const pos      = card.dataset.posicao;
