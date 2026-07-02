@@ -55,4 +55,14 @@ class TimeRepository {
             ':escudo'  => $escudo
         ]);
     }
+    public function atualizar(int $id, string $nome, string $cidade, string $tecnico): bool {
+        $sql = "UPDATE times SET nome = :nome, cidade = :cidade, tecnico = :tecnico WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':id'      => $id,
+            ':nome'    => $nome,
+            ':cidade'  => $cidade,
+            ':tecnico' => $tecnico
+        ]);
+    }
 }
