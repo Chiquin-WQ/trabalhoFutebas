@@ -41,5 +41,18 @@ class TimeRepository {
             ':tecnico' => $tecnico,
             ':escudo'  => $escudo
         ]);
+
+    public function cadastrar(string $nome, string $cidade, string $tecnico, ?string $escudo = null): bool {
+        $sql = "INSERT INTO times (nome, cidade, tecnico, escudo) 
+                VALUES (:nome, :cidade, :tecnico, :escudo)";
+                
+        $stmt = $this->pdo->prepare($sql);
+        
+        return $stmt->execute([
+            ':nome'    => $nome,
+            ':cidade'  => $cidade,
+            ':tecnico' => $tecnico,
+            ':escudo'  => $escudo
+        ]);
     }
 }
