@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (empty($_SESSION['usuario_id'])) {
-    header('Location: ../pages/login.php');
+    header('Location: login.php');
     exit;
 }
 

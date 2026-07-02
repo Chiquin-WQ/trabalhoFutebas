@@ -5,18 +5,19 @@
 }
 
 :root {
-  --pitch-green: #2e5339;
-  --pitch-soft: #3b6649;
-  --chalk-white: #f7f9f6;
-  --ink: #111412;
-  --ink-soft: #2c3530;
-  --line: #111412;
-  --muted: #5c6b62;
-  --stadium-concrete: #e1e6e0;
-  --card-yellow: #f1c40f;
-  --card-yellow-soft: #fcf3cf;
-  --card-red: #c0392b;
-  --card-red-soft: #fadbd8;
+  --pitch-green: #00875a;
+  --pitch-soft: #00a66f;
+  --world-cup-blue: #0f1c3f;
+  --world-cup-blue-soft: #1b2f66;
+  --gold-yellow: #f1c40f;
+  --gold-soft: #fef9e7;
+  --chalk-white: #f4f7f5;
+  --ink: #0a0d0b;
+  --ink-soft: #1c231f;
+  --muted: #55665c;
+  --stadium-concrete: #e3ebd9;
+  --card-red: #d91e18;
+  --card-red-soft: #fbeeeea1;
   
   --radius: 0px;
   --shadow: 6px 6px 0 var(--ink);
@@ -35,8 +36,8 @@ body {
   flex-direction: column;
   color: var(--ink);
   background:
-    linear-gradient(90deg, rgba(17,20,18,.03) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(17,20,18,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 135, 90, 0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 135, 90, 0.03) 1px, transparent 1px),
     var(--chalk-white);
   background-size: 30px 30px, 30px 30px, auto;
   font-family: "Impact", "Arial Black", system-ui, sans-serif;
@@ -61,8 +62,8 @@ a:hover {
 }
 
 ::selection {
-  background: var(--card-yellow);
-  color: var(--ink);
+  background: var(--gold-yellow);
+  color: var(--world-cup-blue);
 }
 
 .site-header {
@@ -70,8 +71,8 @@ a:hover {
   top: 0;
   z-index: 100;
   color: var(--chalk-white);
-  background: var(--ink);
-  border-bottom: 4px solid var(--pitch-green);
+  background: var(--world-cup-blue);
+  border-bottom: 4px solid var(--ink);
 }
 
 .site-header::after {
@@ -80,15 +81,15 @@ a:hover {
   height: 6px;
   background:
     linear-gradient(90deg,
-      var(--pitch-green) 0 40%,
-      var(--card-yellow) 40% 50%,
-      var(--ink) 50% 60%,
-      var(--card-red) 60% 100%);
+      var(--pitch-green) 0 35%,
+      var(--gold-yellow) 35% 50%,
+      var(--world-cup-blue-soft) 50% 75%,
+      var(--card-red) 75% 100%);
 }
 
 .header-inner {
   max-width: 1120px;
-  min-height: 70px;
+  min-height: 75px;
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
@@ -108,41 +109,43 @@ a:hover {
 }
 
 .logo::after {
-  content: " ⚽";
-  font-size: 1.2rem;
+  content: " 🏆";
+  font-size: 1.3rem;
 }
 
 .logo:hover {
-  color: var(--card-yellow);
+  color: var(--gold-yellow);
   text-decoration: none;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
 }
 
 .nav a,
 .btn-logout {
   color: var(--chalk-white);
-  border: 2px solid var(--pitch-green);
-  background: transparent;
+  border: 3px solid var(--ink);
+  background: var(--world-cup-blue-soft);
+  box-shadow: 3px 3px 0 var(--ink);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: .08em;
   font-size: .78rem;
   font-weight: 900;
-  padding: 6px 14px;
-  transition: all .15s ease;
+  padding: 8px 16px;
+  transition: all .1s ease;
 }
 
 .nav a:hover,
 .btn-logout:hover {
-  color: var(--ink);
-  background: var(--card-yellow);
-  border-color: var(--card-yellow);
+  color: var(--world-cup-blue);
+  background: var(--gold-yellow);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .header-user {
@@ -153,7 +156,7 @@ a:hover {
 }
 
 .user-name {
-  color: var(--chalk-white);
+  color: var(--gold-yellow);
   font-family: "Impact", sans-serif;
   text-transform: uppercase;
   font-size: 1rem;
@@ -173,8 +176,8 @@ a:hover {
 .site-footer {
   margin-top: auto;
   color: var(--chalk-white);
-  background: var(--ink);
-  border-top: 4px solid var(--pitch-green);
+  background: var(--world-cup-blue);
+  border-top: 4px solid var(--ink);
 }
 
 .footer-inner {
@@ -251,12 +254,12 @@ a:hover {
 }
 
 .btn-editar {
-  background: var(--card-yellow);
+  background: var(--gold-yellow);
   color: var(--ink);
 }
 
 .btn-editar:hover {
-  background: var(--chalk-white);
+  background: var(--gold-soft);
 }
 
 .btn-excluir {
@@ -303,8 +306,8 @@ a:hover {
 
 .alert-sucesso {
   color: var(--ink);
-  background: var(--card-yellow-soft);
-  border-left: 10px solid var(--card-yellow);
+  background: var(--gold-soft);
+  border-left: 10px solid var(--gold-yellow);
 }
 
 .table-wrapper {
@@ -323,7 +326,7 @@ a:hover {
 .data-table th {
   padding: 14px 16px;
   color: var(--chalk-white);
-  background: var(--pitch-green);
+  background: var(--world-cup-blue);
   border-bottom: 3px solid var(--ink);
   font-family: "Impact", sans-serif;
   font-size: .85rem;
@@ -333,13 +336,13 @@ a:hover {
 
 .data-table td {
   padding: 15px 16px;
-  border-bottom: 2px solid rgba(17,20,18,.15);
+  border-bottom: 2px solid var(--ink);
   color: var(--ink);
   background: #ffffff;
 }
 
 .data-table tr:nth-child(even) td {
-  background: #f2f6f3;
+  background: #f7faf8;
 }
 
 .data-table tr:last-child td {
@@ -347,7 +350,7 @@ a:hover {
 }
 
 .data-table tr:hover td {
-  background: rgba(46,83,57,.12);
+  background: rgba(0, 135, 90, 0.1);
 }
 
 .data-table strong {
@@ -370,7 +373,7 @@ a:hover {
   padding: 4px 12px;
   border: 2px solid var(--ink);
   color: var(--chalk-white);
-  background: var(--ink);
+  background: var(--pitch-green);
   font-family: "Impact", sans-serif;
   font-size: .8rem;
   letter-spacing: .06em;
@@ -450,7 +453,7 @@ a:hover {
 .form-group select:focus {
   background: #ffffff;
   border-color: var(--pitch-green);
-  box-shadow: 0 0 0 4px rgba(46,83,57,.25);
+  box-shadow: 0 0 0 4px rgba(0, 135, 90, 0.2);
 }
 
 .form-actions {
@@ -492,8 +495,8 @@ a:hover {
   justify-content: center;
   padding: 24px;
   background:
-    linear-gradient(90deg, rgba(17,20,18,.04) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(17,20,18,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 28, 63, 0.04) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15, 28, 63, 0.04) 1px, transparent 1px),
     var(--stadium-concrete);
   background-size: 40px 40px, 40px 40px, auto;
 }
@@ -555,8 +558,8 @@ a:hover {
     padding: 28px 16px 48px;
   }
 
-.page-header {
+  .page-header {
     align-items: flex-start;
     flex-direction: column;
   }
-  }
+}

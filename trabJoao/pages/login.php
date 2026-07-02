@@ -22,12 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $repo    = new UsuarioRepository();
         $usuario = $repo->buscarPorEmail($email);
 
-        if ($usuario && hash('sha256', $senha) === $usuario->getSenha()) {
-            $_SESSION['usuario_id']   = $usuario->getId();
-            $_SESSION['usuario_nome'] = $usuario->getNome();
 
-            header('Location: index.php');
-            exit;
+        if ($usuario && hash('sha256', $senha) === $usuario->getSenha()) {
+            
+          
+            if ($usuario->getContaAtiva() === 0) {
+                $erro = 'Sua conta ainda não foi ativada. Verifique seu e-mail.';
+            } else {
+                $_SESSION['usuario_id']   = $usuario->getId();
+                $_SESSION['usuario_nome'] = $usuario->getNome();
+
+                header('Location: index.php');
+                exit;
+            }
+            
         } else {
             $erro = 'E-mail ou senha inválidos.';
         }
@@ -55,30 +63,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <form method="POST" action="login.php">
     <div class="form-group">
       <label for="email">E-mail do Treinador</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="professor@futebas.com"
-        value="<?= htmlspecialchars($emailFormulario) ?>"
-        required
-      />
+      <input type="email" id="email" name="email" value="<?= htmlspecialchars($emailFormulario) ?>" required />
     </div>
 
     <div class="form-group">
       <label for="senha">Chave de Acesso</label>
-      <input
-        type="password"
-        id="senha"
-        name="senha"
-        placeholder="••••••••"
-        required
-      />
+      <input type="password" id="senha" name="senha" required />
     </div>
 
     <button type="submit" class="btn btn-primary btn-full">Entrar em Campo</button>
   </form>
 
+  <div class="login-hint" style="margin-top: 15px; display: flex; justify-content: space-between; font-size: 0.85rem;">
+    <a href="cadastro.php">Registrar Treinador</a>
+    <a href="esqueci_senha.php" style="color: var(--ink-soft);">Esqueci a senha 🔑</a>
+  </div>
 </div>
 
 </body>

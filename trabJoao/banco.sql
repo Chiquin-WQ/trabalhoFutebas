@@ -19,6 +19,10 @@ CREATE TABLE `usuarios` (
   `nome` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
+  `token_validacao` varchar(64) DEFAULT NULL,
+  `conta_ativa` tinyint(1) DEFAULT 0,
+  `token_recuperacao` varchar(64) DEFAULT NULL,
+  `recuperacao_expira_em` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

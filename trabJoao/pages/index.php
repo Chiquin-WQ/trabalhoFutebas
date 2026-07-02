@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../Repository/JogadorRepository.php';
+require_once __DIR__ . '/../repository/JogadorRepository.php';
 require_once __DIR__ . '/../config/database.php';
 
 $pdo = getConexao();
@@ -12,7 +12,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header">
-  <h2>Painel de Elenco - Jogadores</h2>
+  <h2>Painel de Elenco - Jogadores 🏆</h2>
   <a href="jogador_create.php" class="btn btn-primary">+ Novo Jogador</a>
 </div>
 
@@ -20,7 +20,7 @@ require_once __DIR__ . '/../includes/header.php';
   <input
     type="text"
     id="buscaNome"
-    placeholder="Buscar por nome..."
+    placeholder="Buscar por nome do craque..."
     class="input-busca"
   />
 
@@ -29,7 +29,8 @@ require_once __DIR__ . '/../includes/header.php';
     <option value="Goleiro">Goleiro</option>
     <option value="Zagueiro">Zagueiro</option>
     <option value="Lateral">Lateral</option>
-    <option value="Meio-Campista">Meio-Campista</option>
+    <option value="Volante">Volante</option>
+    <option value="Meia">Meia</option>
     <option value="Atacante">Atacante</option>
   </select>
 
@@ -45,8 +46,8 @@ require_once __DIR__ . '/../includes/header.php';
 
 <?php if (empty($jogadores)): ?>
   <div class="empty-state">
-    <p>Nenhum jogador foi cadastrado no sistema até o momento.</p>
-    <a href="jogador_create.php" class="btn btn-primary">Cadastrar Primeiro Jogador</a>
+    <p>Nenhum jogador foi convocado para a Copa até o momento.</p>
+    <a href="jogador_create.php" class="btn btn-primary">Convocar Primeiro Jogador</a>
   </div>
 
 <?php else: ?>
@@ -62,8 +63,7 @@ require_once __DIR__ . '/../includes/header.php';
           <th>Posição</th>
           <th>Camisa</th>
           <th>Overall</th>
-          <th>Time (ID)</th>
-          <th>Status</th>
+          <th>Time ID</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -76,9 +76,9 @@ require_once __DIR__ . '/../includes/header.php';
           >
             <td><?= $jogador->getId() ?></td>
             <td>
-              <?php if ($jogador->getFoto() && $jogador->getFoto() !== 'uploads/default_avatar.png'): ?>
+              <?php if ($jogador->getFoto()): ?>
                 <img
-                  src="/uploads/jogadores/<?= htmlspecialchars($jogador->getFoto()) ?>"
+                  src="../assets/uploads/<?= htmlspecialchars($jogador->getFoto()) ?>"
                   alt="<?= htmlspecialchars($jogador->getNome()) ?>"
                   class="avatar-tabela"
                 />
@@ -88,11 +88,10 @@ require_once __DIR__ . '/../includes/header.php';
             </td>
             <td><strong><?= htmlspecialchars($jogador->getNome()) ?></strong></td>
             <td><?= $jogador->getIdade() ?> anos</td>
-            <td><span class="badge badge-posicao"><?= htmlspecialchars($jogador->getPosicao()) ?></span></td>
+            <td><span class="badge"><?= htmlspecialchars($jogador->getPosicao()) ?></span></td>
             <td>Nº <?= $jogador->getNumeroCamisa() ?></td>
             <td><strong><?= $jogador->getOverall() ?></strong></td>
             <td>#<?= $jogador->getIdTime() ?></td>
-            <td><span class="badge badge-status"><?= htmlspecialchars($jogador->getStatus()) ?></span></td>
             <td class="acoes">
               <a href="jogador_edit.php?id=<?= $jogador->getId() ?>" class="btn btn-sm btn-editar">Editar</a>
               <a href="jogador_delete.php?id=<?= $jogador->getId() ?>" class="btn btn-sm btn-excluir">Excluir</a>
@@ -111,9 +110,9 @@ require_once __DIR__ . '/../includes/header.php';
         data-posicao="<?= htmlspecialchars($jogador->getPosicao()) ?>"
       >
         <div class="card-foto">
-          <?php if ($jogador->getFoto() && $jogador->getFoto() !== 'uploads/default_avatar.png'): ?>
+          <?php if ($jogador->getFoto()): ?>
             <img
-              src="/uploads/jogadores/<?= htmlspecialchars($jogador->getFoto()) ?>"
+              src="../assets/uploads/<?= htmlspecialchars($jogador->getFoto()) ?>"
               alt="<?= htmlspecialchars($jogador->getNome()) ?>"
               class="avatar-card"
             />
@@ -124,12 +123,11 @@ require_once __DIR__ . '/../includes/header.php';
 
         <div class="card-info">
           <h3><?= htmlspecialchars($jogador->getNome()) ?></h3>
-          <span class="badge badge-posicao"><?= htmlspecialchars($jogador->getPosicao()) ?></span>
-          <p>Camisa: <?= $jogador->getNumeroCamisa() ?></p>
-          <p>Idade: <?= $jogador->getIdade() ?> anos</p>
-          <p>Overall: <strong><?= $jogador->getOverall() ?></strong></p>
-          <p>Time ID: #<?= $jogador->getIdTime() ?></p>
-          <p>Status: <strong><?= htmlspecialchars($jogador->getStatus()) ?></strong></p>
+          <span class="badge" style="margin-bottom: 12px;"><?= htmlspecialchars($jogador->getPosicao()) ?></span>
+          <p>Camisa: <strong>Nº <?= $jogador->getNumeroCamisa() ?></strong></p>
+          <p>Idade: <strong><?= $jogador->getIdade() ?> anos</strong></p>
+          <p>Overall: <strong>★ <?= $jogador->getOverall() ?></strong></p>
+          <p>Time ID: <strong>#<?= $jogador->getIdTime() ?></strong></p>
         </div>
 
         <div class="card-acoes">
@@ -145,114 +143,130 @@ require_once __DIR__ . '/../includes/header.php';
 <style>
   .filtros-wrapper {
     display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 15px;
+    margin-bottom: 30px;
     align-items: center;
     flex-wrap: wrap;
   }
 
   .input-busca, .input-select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    min-width: 200px;
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    outline: none;
+    color: var(--ink);
+    background: #ffffff;
+    font-family: "Arial", system-ui, sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .input-busca {
+    min-width: 260px;
+    flex: 1;
+  }
+
+  .input-busca:focus, .input-select:focus {
+    border-color: var(--pitch-green);
+    box-shadow: 0 0 0 4px rgba(0, 135, 90, 0.2);
   }
 
   .toggle-view {
     margin-left: auto;
     display: flex;
-    gap: 6px;
+    gap: 10px;
   }
 
   .btn-toggle {
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    padding: 6px 14px;
-    border-radius: 6px;
+    background: var(--stadium-concrete);
+    color: var(--ink);
   }
 
   .btn-toggle.active {
-    background: #3b82f6;
-    color: white;
-    border-color: #3b82f6;
+    background: var(--world-cup-blue);
+    color: var(--chalk-white);
   }
 
   .avatar-tabela {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 45px;
+    height: 45px;
     object-fit: cover;
-    border: 2px solid #ddd;
+    border: 2px solid var(--ink);
+    display: block;
   }
 
   .avatar-placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #f0f0f0;
+    width: 45px;
+    height: 45px;
+    border: 2px dashed var(--ink);
+    background: var(--stadium-concrete);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-family: "Impact", sans-serif;
+    font-size: 1.2rem;
   }
 
   .cards-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
   }
 
   .jogador-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 20px;
+    background: #ffffff;
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    transition: transform 0.2s;
-  }
-
-  .jogador-card:hover {
-    transform: translateY(-4px);
   }
 
   .avatar-card {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    border: 3px solid #3b82f6;
-    margin-bottom: 12px;
+    border: 3px solid var(--ink);
+    margin-bottom: 15px;
+    display: block;
   }
 
   .avatar-placeholder-card {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: #f0f0f0;
+    width: 100px;
+    height: 100px;
+    border: 3px dashed var(--ink);
+    background: var(--stadium-concrete);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
-    margin: 0 auto 12px;
+    font-family: "Impact", sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
   }
 
   .card-info h3 {
-    margin: 8px 0 4px;
-    font-size: 16px;
+    font-family: "Impact", sans-serif;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+    color: var(--ink);
   }
 
   .card-info p {
-    font-size: 13px;
-    color: #666;
+    font-family: "Arial", system-ui, sans-serif;
+    font-size: 0.9rem;
     margin: 4px 0;
+    color: var(--ink-soft);
   }
 
   .card-acoes {
-    margin-top: 12px;
+    margin-top: 18px;
     display: flex;
-    gap: 8px;
+    gap: 10px;
+    width: 100%;
     justify-content: center;
   }
 </style>
