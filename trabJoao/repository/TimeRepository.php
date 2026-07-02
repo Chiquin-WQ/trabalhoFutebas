@@ -5,28 +5,20 @@ class TimeRepository {
 
     public function __construct() {
         require_once __DIR__ . '/../config/database.php';
+        
+        // Tentamos pegar a variável global $pdo
         global $pdo;
+        
+        // Se a global não existir ou estiver vazia, criamos a conexão direto aqui como plano B
+        if (!isset($pdo) || $pdo === null) {
+            try {
+                $pdo = new PDO("mysql:host=127.0.0.1;dbname=futebas;charset=utf8mb4", "root", "");
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("Erro na conexão com o banco: " . $e->getMessage());
+            }
+        }
+        
         $this->pdo = $pdo;
     }
-
-    // Busca todos os times ordenados por nome
-    public function listarTodos(): array {
-        $stmt = $this->pdo->query('SELECT * FROM times ORDER BY nome ASC');
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Cadastra um novo time usando os campos reais da sua tabela
-    public function cadastrar(string $nome, string $cidade, string $tecnico, ?string $escudo = null): bool {
-        $sql = "INSERT INTO times (nome, cidade, tecnico, escudo) 
-                VALUES (:nome, :cidade, :tecnico, :escudo)";
-                
-        $stmt = $this->pdo->prepare($sql);
-        
-        return $stmt->execute([
-            ':nome'    => $nome,
-            ':cidade'  => $cidade,
-            ':tecnico' => $tecnico,
-            ':escudo'  => $escudo
-        ]);
-    }
-}
