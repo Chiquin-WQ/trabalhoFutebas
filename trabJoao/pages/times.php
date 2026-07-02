@@ -29,7 +29,7 @@ $times = $timeRepository->listarTodos();
     <hr>
 
     <?php if (empty($times)): ?>
-        <p>Nenhum time encontrado no banco de dados. Que tal cadastrar o primeiro? ⚽</p>
+        <p>Nenhum time encontrado no banco de dados. Que tal cadastrar o primeiro? </p>
     <?php else: ?>
         <div class="card-container">
             <?php foreach ($times as $time): ?>
