@@ -4,8 +4,6 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../repository/JogadorRepository.php';
 
-
-$pdo = getConexao();
 $repo = new JogadorRepository($pdo);
 $jogadores = $repo->listarTodos();
 
