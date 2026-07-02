@@ -9,8 +9,7 @@ if (empty($token)) {
     die("Token de recuperação inválido.");
 }
 
-$pdo = getConexao();
-
+global $pdo;
 
 $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE token_recuperacao = :token AND recuperacao_expira_em > NOW()");
 $stmt->execute(['token' => $token]);
@@ -28,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $senhaHash = hash('sha256', $novaSenha);
         
-       
         $update = $pdo->prepare("UPDATE usuarios SET senha = :senha, token_recuperacao = NULL, recuperacao_expira_em = NULL WHERE id = :id");
         $update->execute([
             'senha' => $senhaHash,
