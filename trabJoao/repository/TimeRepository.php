@@ -65,4 +65,9 @@ class TimeRepository {
             ':tecnico' => $tecnico
         ]);
     }
+    public function deletar(int $id): bool {
+        $sql = "DELETE FROM times WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([':id' => $id]);
+    }
 }
