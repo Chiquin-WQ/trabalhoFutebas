@@ -7,6 +7,7 @@ if (!empty($_SESSION['usuario_id'])) {
     exit;
 }
 
+require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repository/UsuarioRepository.php';
 
 $erro = '';
@@ -22,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nome === '' || $email === '' || $senha === '') {
         $erro = 'Preencha todos os campos.';
     } else {
-        $repo = new UsuarioRepository();
+        $repo = new UsuarioRepository($pdo);
         
         if ($repo->buscarPorEmail($email)) {
             $erro = 'Este e-mail já está cadastrado.';

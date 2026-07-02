@@ -6,10 +6,8 @@ class UsuarioRepository {
 
     private PDO $pdo;
 
-    public function __construct() {
-       
-        require_once __DIR__ . '/../config/database.php';
-        $this->pdo = getConexao();
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
 
     public function buscarPorEmail(string $email): ?Usuario {
