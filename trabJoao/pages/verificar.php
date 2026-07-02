@@ -7,8 +7,7 @@ if (empty($token)) {
     die("Token de validação ausente.");
 }
 
-$pdo = getConexao();
-
+global $pdo;
 
 $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE token_validacao = :token");
 $stmt->execute(['token' => $token]);
@@ -21,7 +20,6 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="form-card" style="align-items: center; display: flex; flex-direction: column;">
         <?php if ($usuario): ?>
             <?php
-           
             $update = $pdo->prepare("UPDATE usuarios SET conta_ativa = 1, token_validacao = NULL WHERE id = :id");
             $update->execute(['id' => $usuario['id']]);
             ?>

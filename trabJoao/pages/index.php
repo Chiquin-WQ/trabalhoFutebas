@@ -1,8 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../repository/JogadorRepository.php';
-require_once __DIR__ . '/../config/database.php';
+
 
 $pdo = getConexao();
 $repo = new JogadorRepository($pdo);
