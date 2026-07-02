@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost';
-$dbName = 'trabalho_futebas'; 
+$dbName = 'futebas'; 
 $username = 'root';
 $password = '';
 
