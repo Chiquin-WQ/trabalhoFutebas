@@ -7,7 +7,7 @@ if (!empty($_SESSION['usuario_id'])) {
     exit;
 }
 
-require_once __DIR__ . '/../config/database.php'; // Inclui a conexão com o banco
+require_once __DIR__ . '/../config/database.php'; 
 require_once __DIR__ . '/../repository/UsuarioRepository.php';
 
 $erro = '';
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $senha === '') {
         $erro = 'Preencha todos os campos.';
     } else {
-        $repo    = new UsuarioRepository($pdo); // Passa a conexão $pdo aqui
+        $repo    = new UsuarioRepository();
         $usuario = $repo->buscarPorEmail($email);
 
         if ($usuario && hash('sha256', $senha) === $usuario->getSenha()) {

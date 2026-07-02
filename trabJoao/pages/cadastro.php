@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nome === '' || $email === '' || $senha === '') {
         $erro = 'Preencha todos os campos.';
     } else {
-        $repo = new UsuarioRepository($pdo);
+        $repo = new UsuarioRepository();
         
         if ($repo->buscarPorEmail($email)) {
             $erro = 'Este e-mail já está cadastrado.';

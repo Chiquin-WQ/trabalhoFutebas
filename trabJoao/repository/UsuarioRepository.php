@@ -6,7 +6,10 @@ class UsuarioRepository {
 
     private PDO $pdo;
 
-    public function __construct(PDO $pdo) {
+    public function __construct() {
+        require_once __DIR__ . '/../config/database.php';
+        
+        global $pdo;
         $this->pdo = $pdo;
     }
 
