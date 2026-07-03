@@ -44,16 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $foto = $nomeArquivo;
         }
 
-        $jogador = new Jogador([
-            'nome'          => $nome,
-            'idade'         => $idade,
-            'posicao'       => $posicao,
-            'numero_camisa' => $numeroCamisa,
-            'overall'       => $overall,
-            'foto'          => $foto,
-            'id_time'       => $idTime,
-            'status'        => 1
-        ]);
+        $jogador = new Jogador(
+            null,
+            $nome,
+            $idade,
+            $posicao,
+            $numeroCamisa,
+            $overall,
+            $foto,
+            $idTime,
+            1
+        );
 
         $repository = new JogadorRepository($pdo);
         $repository->salvar($jogador);
