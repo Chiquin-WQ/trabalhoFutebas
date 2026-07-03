@@ -1,6 +1,7 @@
 <?php
 
-require_once '../repository/JogadorRepository.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../repository/JogadorRepository.php';
 
 $erro = '';
 
@@ -43,16 +44,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $foto = $nomeArquivo;
         }
 
-        $repository = new JogadorRepository();
-        $repository->inserir(
-            $nome,
-            $idade,
-            $posicao,
-            $numeroCamisa,
-            $overall,
-            $foto,
-            $idTime
-        );
+        $jogador = new Jogador([
+            'nome'          => $nome,
+            'idade'         => $idade,
+            'posicao'       => $posicao,
+            'numero_camisa' => $numeroCamisa,
+            'overall'       => $overall,
+            'foto'          => $foto,
+            'id_time'       => $idTime,
+            'status'        => 1
+        ]);
+
+        $repository = new JogadorRepository($pdo);
+        $repository->salvar($jogador);
 
         header('Location: index.php');
         exit;
