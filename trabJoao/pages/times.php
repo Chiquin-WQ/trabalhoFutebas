@@ -10,23 +10,196 @@ $times = $timeRepository->listarTodos();
 <head>
     <meta charset="UTF-8">
     <title>Futebas - Lista de Times</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
-        h1 { color: #2c3e50; }
-        .card-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-left: 5px solid #27ae60; position: relative; }
-        .card h3 { margin: 0 0 10px 0; color: #333; }
-        .card p { margin: 5px 0; color: #666; font-size: 14px; }
-        .btn { display: inline-block; background: #27ae60; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .btn:hover { background: #219150; }
-        
-        /* Estilo para a área dos botões de ação */
-        .acoes { margin-top: 15px; display: flex; gap: 10px; }
-        .btn-editar { display: inline-block; background: #3498db; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; text-align: center; flex: 1; }
-        .btn-editar:hover { background: #2980b9; }
-        .btn-excluir { display: inline-block; background: #e74c3c; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; text-align: center; flex: 1; border: none; cursor: pointer; }
-        .btn-excluir:hover { background: #c0392b; }
-    </style>
+   <style>
+  /* Container de Filtros */
+  .filtros-wrapper {
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .input-busca {
+    width: 100%;
+    max-width: 420px;
+    min-height: 46px;
+    padding: 12px 16px;
+    border: 3px solid var(--ink, #1a1a1a);
+    border-radius: 8px;
+    outline: none;
+    color: var(--ink, #1a1a1a);
+    background: #ffffff;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 4px 4px 0px #000000;
+    transition: all 0.2s ease;
+  }
+
+  .input-busca:focus {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+    border-color: #3b82f6; /* Destaque azul ao focar */
+  }
+
+  /* Grid de Exibição dos Times */
+  .teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 30px;
+    padding-bottom: 40px;
+  }
+
+  /* O Card do Time Estilizado */
+  .time-card {
+    background: #ffffff;
+    border: 3px solid var(--ink, #1a1a1a);
+    box-shadow: 6px 6px 0px #000000;
+    border-radius: 12px;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .time-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px #000000;
+  }
+
+  /* Container do Escudo / Brasão */
+  .badge-container {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border: 3px solid var(--ink, #1a1a1a);
+    border-radius: 50%; /* Formato circular de medalha */
+    box-shadow: 4px 4px 0px #000000;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .time-card:hover .badge-container {
+    transform: scale(1.05) rotate(3deg); /* Leve efeito ao passar o mouse */
+  }
+
+  .team-shield {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .shield-placeholder {
+    font-size: 2.8rem;
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));
+  }
+
+  /* Informações textuais */
+  .time-info {
+    width: 100%;
+    margin-bottom: 22px;
+  }
+
+  .time-info h3 {
+    font-family: "Impact", "Arial Black", sans-serif;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    margin: 0 0 6px 0;
+    color: var(--ink, #1a1a1a);
+    line-height: 1.2;
+  }
+
+  .location-tag {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0 0 18px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Painel de Estatísticas do Time */
+  .time-stats {
+    background: #f1f5f9;
+    border: 3px solid var(--ink, #1a1a1a);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.05);
+  }
+
+  .time-stats .stat-title {
+    font-size: 0.7rem;
+    color: #475569;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .time-stats .stat-number {
+    font-family: "Impact", "Arial Black", sans-serif;
+    font-size: 1.8rem;
+    color: #10b981; /* Verde vivo de gol */
+    text-shadow: 2px 2px 0px #000000;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  /* Botões de Ação Inferiores */
+  .time-actions {
+    margin-top: auto;
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Ajuste fino nos botões padrões para combinarem */
+  .time-actions .btn {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    border: 2px solid var(--ink, #1a1a1a);
+    box-shadow: 3px 3px 0px #000000;
+    transition: all 0.1s ease;
+  }
+
+  .time-actions .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #000000;
+  }
+
+  .time-actions .btn-editar {
+    background: #bae6fd; /* Azul suave */
+    color: #0369a1;
+  }
+  .time-actions .btn-editar:hover {
+    background: #7dd3fc;
+  }
+
+  .time-actions .btn-excluir {
+    background: #fecaca; /* Vermelho suave */
+    padding: 8px 14px;
+  }
+  .time-actions .btn-excluir:hover {
+    background: #fca5a5;
+  }
+</style>
 </head>
 <body>
 
