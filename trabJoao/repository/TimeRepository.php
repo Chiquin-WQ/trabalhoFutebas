@@ -25,6 +25,12 @@ class TimeRepository {
         $stmt = $this->pdo->query('SELECT * FROM times ORDER BY nome ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function buscarPorId(int $id): ?array {
+        $stmt = $this->pdo->prepare('SELECT * FROM times WHERE id = :id LIMIT 1');
+        $stmt->execute([':id' => $id]);
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $dados ? $dados : null;
+    }
 
     public function cadastrar(string $nome, string $cidade, string $tecnico, ?string $escudo = null): bool {
         $sql = "INSERT INTO times (nome, cidade, tecnico, escudo) 
