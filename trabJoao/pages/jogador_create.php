@@ -4,7 +4,6 @@ require_once __DIR__ . '/../repository/JogadorRepository.php';
 require_once __DIR__ . '/../repository/TimeRepository.php';
 
 $erro = '';
-
 try {
     $timeRepository = new TimeRepository($pdo);
     $timesCadastrados = $timeRepository->listarTodos();
@@ -14,51 +13,19 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $nome = $_POST['nome'];
-        $idade = (int) $_POST['idade'];
-        $posicao = $_POST['posicao'];
-        $numeroCamisa = (int) $_POST['numero_camisa'];
-        $overall = (int) $_POST['overall'];
-        $idTime = (int) $_POST['id_time'];
-
-        $foto = '';
-
-        if (!empty($_FILES['foto']['name'])) {
-            $arquivo = $_FILES['foto'];
-            $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
-            $permitidas = ['jpg', 'png', 'webp'];
-
-            if (!in_array($extensao, $permitidas)) {
-                throw new Exception('Formato de imagem inválido.');
-            }
-
-            $pastaDestino = '../assets/uploads/';
-            if (!is_dir($pastaDestino)) {
-                mkdir($pastaDestino, 0755, true);
-            }
-
-            $nomeArquivo = uniqid() . '.' . $extensao;
-            move_uploaded_file($arquivo['tmp_name'], $pastaDestino . $nomeArquivo);
-            $foto = $nomeArquivo;
-        }
-
         $jogador = new Jogador([
-            'nome' => $nome,
-            'idade' => $idade,
-            'posicao' => $posicao,
-            'numero_camisa' => $numeroCamisa,
-            'overall' => $overall,
-            'foto' => $foto,
-            'id_time' => $idTime,
+            'nome' => $_POST['nome'],
+            'idade' => (int) $_POST['idade'],
+            'posicao' => $_POST['posicao'],
+            'numero_camisa' => (int) $_POST['numero_camisa'],
+            'overall' => (int) $_POST['overall'],
+            'id_time' => (int) $_POST['id_time'],
             'status' => 1
         ]);
-
         $repository = new JogadorRepository($pdo);
         $repository->salvar($jogador);
-
         header('Location: index.php');
         exit;
-
     } catch (Exception $e) {
         $erro = $e->getMessage();
     }
@@ -67,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Convocar Jogador — Futebas</title>
   <link rel="stylesheet" href="../assets/style.css" />
 </head>
@@ -92,37 +59,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="form-group">
         <label for="idade">Idade</label>
-        <input type="number" id="idade" name="idade" min="15" max="50">
+        <input type="number" id="idade" name="idade">
       </div>
 
       <div class="form-group">
         <label for="posicao">Posição</label>
-        <input type="text" id="posicao" name="posicao" required>
+        <input type="text" id="posicao" name="posicao">
       </div>
 
       <div class="form-group">
         <label for="numero_camisa">Número da Camisa</label>
-        <input type="number" id="numero_camisa" name="numero_camisa" min="1" max="99">
+        <input type="number" id="numero_camisa" name="numero_camisa">
       </div>
 
       <div class="form-group">
-        <label for="overall">Overall (Nível)</label>
-        <input type="number" id="overall" name="overall" min="1" max="99">
+        <label for="overall">Overall</label>
+        <input type="number" id="overall" name="overall">
       </div>
 
       <div class="form-group">
         <label for="id_time">Time / Seleção</label>
         <select id="id_time" name="id_time" required>
-            <option value="">-- Selecione um Time --</option>
+            <option value="">-- Selecione --</option>
             <?php foreach ($timesCadastrados as $time): ?>
                 <option value="<?= $time['id'] ?>"><?= htmlspecialchars($time['nome']) ?></option>
             <?php endforeach; ?>
         </select>
-      </div>
-
-      <div class="form-group">
-        <label for="foto">Foto de Perfil</label>
-        <input type="file" id="foto" name="foto" accept="image/*">
       </div>
 
       <div class="form-actions">

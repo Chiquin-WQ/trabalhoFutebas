@@ -230,3 +230,52 @@ a:hover {
   text-align: center;
   margin: 0 auto;
 }
+
+/* Classes para Formulários (necessárias para o jogador_create) */
+.form-card {
+  background: var(--chalk-white);
+  border: 3px solid var(--ink);
+  box-shadow: var(--shadow);
+  padding: 34px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-family: "Impact", sans-serif;
+  font-size: .85rem;
+  text-transform: uppercase;
+}
+
+.form-group input, 
+.form-group select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 13px;
+  border: 2px solid var(--ink);
+  background: #ffffff;
+  font-family: "Arial", sans-serif;
+}
+
+.form-actions {
+  margin-top: 20px;
+}
+
+.alert {
+  padding: 14px 18px;
+  margin-bottom: 25px;
+  border: 3px solid var(--ink);
+  font-family: "Impact", sans-serif;
+  text-transform: uppercase;
+}
+
+.alert-erro {
+  background: var(--card-red-soft);
+  border-left: 10px solid var(--card-red);
+}
