@@ -9,7 +9,6 @@ class TimeRepository {
         
         global $pdo;
         
-       
         if (!isset($pdo) || $pdo === null) {
             try {
                 $pdo = new PDO("mysql:host=127.0.0.1;dbname=futebas;charset=utf8mb4", "root", "");
@@ -22,26 +21,11 @@ class TimeRepository {
         $this->pdo = $pdo;
     }
 
-    
     public function listarTodos(): array {
         $stmt = $this->pdo->query('SELECT * FROM times ORDER BY nome ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-    public function cadastrar(string $nome, string $cidade, string $tecnico, ?string $escudo = null): bool {
-        $sql = "INSERT INTO times (nome, cidade, tecnico, escudo) 
-                VALUES (:nome, :cidade, :tecnico, :escudo)";
-                
-        $stmt = $this->pdo->prepare($sql);
-        
-        return $stmt->execute([
-            ':nome'    => $nome,
-            ':cidade'  => $cidade,
-            ':tecnico' => $tecnico,
-            ':escudo'  => $escudo
-        ]);
-
     public function cadastrar(string $nome, string $cidade, string $tecnico, ?string $escudo = null): bool {
         $sql = "INSERT INTO times (nome, cidade, tecnico, escudo) 
                 VALUES (:nome, :cidade, :tecnico, :escudo)";
@@ -55,6 +39,7 @@ class TimeRepository {
             ':escudo'  => $escudo
         ]);
     }
+
     public function atualizar(int $id, string $nome, string $cidade, string $tecnico): bool {
         $sql = "UPDATE times SET nome = :nome, cidade = :cidade, tecnico = :tecnico WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
@@ -65,6 +50,7 @@ class TimeRepository {
             ':tecnico' => $tecnico
         ]);
     }
+
     public function deletar(int $id): bool {
         $sql = "DELETE FROM times WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
