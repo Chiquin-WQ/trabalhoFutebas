@@ -25,7 +25,8 @@ if ($jogador === null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $repo->deletar($jogador->getId());
+    
+    $repo->excluir($jogador->getId());
     header('Location: index.php');
     exit;
 }
@@ -34,7 +35,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h2>Dispensar Jogador </h2>
+    <h2>Dispensar Jogador</h2>
     <a href="index.php" class="btn btn-ghost">← Voltar</a>
 </div>
 
@@ -64,7 +65,6 @@ require_once __DIR__ . '/../includes/header.php';
                 <button type="submit" class="btn btn-excluir">
                     Sim, dispensar
                 </button>
-                <!-- Corrigido o fechamento da tag de </button> para </a> -->
                 <a href="index.php" class="btn btn-ghost">
                     Cancelar
                 </a>
