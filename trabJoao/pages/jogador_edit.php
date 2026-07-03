@@ -65,20 +65,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $foto = $nomeArquivo;
         }
 
-        $repository->atualizar(
-            $id,
-            $nome,
-            $idade,
-            $posicao,
-            $numeroCamisa,
-            $overall,
-            $foto,
-            $idTime
-        );
+        // --- APAGUE A LINHA ANTIGA DO $repository->atualizar E COLE ISTO NO LUGAR: ---
+        
+        $dadosJogador = [
+            'id'            => $id,
+            'nome'          => $nome,
+            'idade'         => $idade,
+            'posicao'       => $posicao,
+            'numero_camisa' => $numeroCamisa,
+            'overall'       => $overall,
+            'foto'          => $foto,
+            'id_time'       => $idTime
+        ];
+
+        $jogadorAtualizado = new Jogador($dadosJogador);
+
+        $repository->atualizar($jogadorAtualizado);
 
         header('Location: index.php');
         exit;
-
     } catch (Exception $e) {
         $erro = $e->getMessage();
     }
