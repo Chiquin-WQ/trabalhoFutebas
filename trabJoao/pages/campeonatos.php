@@ -12,42 +12,57 @@ $campeonatos = $repository->listarTodos();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Campeonatos</title>
+    <title>Campeonatos - Futebas</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Campeonatos Cadastrados</h1>
-        
-        <div class="actions">
-            <a href="campeonato_create.php" class="btn btn-primary">+ Novo Campeonato</a>
-            <a href="index.php" class="btn btn-ghost">Voltar</a>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.php" class="logo">Futebas</a>
         </div>
-        
-        <br>
-        
-        <table class="tabela-campeonatos">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Ano</th>
-                    <th>Premiação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($campeonatos)): ?>
-                    <tr><td colspan="3">Nenhum campeonato encontrado.</td></tr>
-                <?php else: ?>
-                    <?php foreach ($campeonatos as $c): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($c['nome'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($c['ano'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($c['premiacao'] ?? '') ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Campeonatos</h2>
+            <a href="campeonato_create.php" class="btn btn-primary">+ Novo Campeonato</a>
+        </div>
+
+        <?php if (empty($campeonatos)): ?>
+            <div class="empty-state">
+                <p>Nenhum campeonato cadastrado ainda.</p>
+                <a href="campeonato_create.php" class="btn">Cadastrar Primeiro</a>
+            </div>
+        <?php else: ?>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Ano</th>
+                            <th>Premiação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($campeonatos as $c): ?>
+                        <tr>
+                            <td><strong><?= htmlspecialchars($c['nome'] ?? '') ?></strong></td>
+                            <td><?= htmlspecialchars($c['ano'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($c['premiacao'] ?? '') ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            Sistema de Gestão Futebas &copy; 2026
+        </div>
+    </footer>
+
 </body>
 </html>
