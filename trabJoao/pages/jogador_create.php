@@ -2,8 +2,18 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repository/JogadorRepository.php';
+// Importamos o repositório de times para listar as opções no formulário
+require_once __DIR__ . '/../repository/TimeRepository.php';
 
 $erro = '';
+
+// Buscamos todos os times cadastrados para listar no <select>
+try {
+    $timeRepository = new TimeRepository();
+    $timesCadastrados = $timeRepository->listarTodos();
+} catch (Exception $e) {
+    $timesCadastrados = [];
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -44,6 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $foto = $nomeArquivo;
         }
 
+        // Importante: A classe Jogador precisa estar carregada ou pelo autoload, 
+        // ou sendo incluída dentro do JogadorRepository.php
         $jogador = new Jogador([
             'nome'          => $nome,
             'idade'         => $idade,
@@ -73,6 +85,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convocar Jogador — Futebas Club</title>
   <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+      /* Garantindo que o select herde os estilos bonitos dos inputs do seu projeto */
+      select {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          background-color: white;
+          box-sizing: border-box;
+          font-size: 14px;
+      }
+  </style>
 </head>
 <body>
 
@@ -113,9 +137,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="number" id="overall" name="overall" placeholder="Ex: 89" min="1" max="99">
       </div>
 
+      <!-- AQUI A MÁGICA ACONTECE: TROCAMOS O INPUT POR UM SELECT DINÂMICO -->
       <div class="form-group">
-        <label for="id_time">ID da Seleção / Time</label>
-        <input type="number" id="id_time" name="id_time" placeholder="Ex: 1" required>
+        <label for="id_time">Time / Seleção</label>
+        <select id="id_time" name="id_time" required>
+            <option value="">-- Selecione um Time --</option>
+            <?php foreach ($timesCadastrados as $time): ?>
+                <option value="<?= $time['id'] ?>">
+                    <?= htmlspecialchars($time['nome']) ?> (<?= htmlspecialchars($time['cidade'] ?? 'Sem Cidade') ?>)
+                </option>
+            <?php endforeach; ?>
+        </select>
       </div>
 
       <div class="form-group">
