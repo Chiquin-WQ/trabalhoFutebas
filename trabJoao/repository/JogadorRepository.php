@@ -34,8 +34,8 @@ class JogadorRepository {
     }
 
     public function salvar(Jogador $jogador): bool {
-        $sql = "INSERT INTO jogadores (nome, idade, posicao, numero_camisa, overall, foto, id_time, status) 
-                VALUES (:nome, :idade, :posicao, :numero_camisa, :overall, :foto, :id_time, :status)";
+        $sql = "INSERT INTO jogadores (nome, idade, posicao, numero_camisa, overall, foto, id_time) 
+                VALUES (:nome, :idade, :posicao, :numero_camisa, :overall, :foto, :id_time)";
         
         $stmt = $this->pdo->prepare($sql);
         
@@ -46,8 +46,7 @@ class JogadorRepository {
             ':numero_camisa' => $jogador->getNumeroCamisa(),
             ':overall'       => $jogador->getOverall(),
             ':foto'          => $jogador->getFoto(),
-            ':id_time'       => $jogador->getIdTime(),
-            ':status'        => $jogador->getStatus()
+            ':id_time'       => $jogador->getIdTime()
         ]);
 
         if ($executou) {
@@ -65,8 +64,7 @@ class JogadorRepository {
                     numero_camisa = :numero_camisa, 
                     overall = :overall, 
                     foto = :foto, 
-                    id_time = :id_time, 
-                    status = :status 
+                    id_time = :id_time
                 WHERE id = :id";
         
         $stmt = $this->pdo->prepare($sql);
@@ -79,8 +77,7 @@ class JogadorRepository {
             ':numero_camisa' => $jogador->getNumeroCamisa(),
             ':overall'       => $jogador->getOverall(),
             ':foto'          => $jogador->getFoto(),
-            ':id_time'       => $jogador->getIdTime(),
-            ':status'        => $jogador->getStatus()
+            ':id_time'       => $jogador->getIdTime()
         ]);
     }
 
