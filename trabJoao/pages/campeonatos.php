@@ -35,9 +35,9 @@ $campeonatos = $repository->listarTodos();
                 <?php else: ?>
                     <?php foreach ($campeonatos as $c): ?>
                     <tr>
-                        <td><?= htmlspecialchars($c['nome']) ?></td>
-                        <td><?= htmlspecialchars($c['ano']) ?></td>
-                        <td><?= htmlspecialchars($c['premiacao']) ?></td>
+                        <td><?= htmlspecialchars($c['nome'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($c['ano'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($c['premiacao'] ?? '') ?></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
