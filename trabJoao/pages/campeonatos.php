@@ -18,10 +18,15 @@ $campeonatos = $repository->listarTodos();
 <body>
     <div class="container">
         <h1>Campeonatos Cadastrados</h1>
-        <a href="campeonato_create.php" class="btn btn-primary">+ Novo Campeonato</a>
-        <a href="index.php" class="btn btn-ghost">Voltar</a>
-        <br><br>
-        <table border="1">
+        
+        <div class="actions">
+            <a href="campeonato_create.php" class="btn btn-primary">+ Novo Campeonato</a>
+            <a href="index.php" class="btn btn-ghost">Voltar</a>
+        </div>
+        
+        <br>
+        
+        <table class="tabela-campeonatos">
             <thead>
                 <tr>
                     <th>Nome</th>
