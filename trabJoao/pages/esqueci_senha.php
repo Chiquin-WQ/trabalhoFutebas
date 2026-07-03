@@ -8,14 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
 
     if ($email !== '') {
-        $pdo = getConexao();
+        global $pdo;
         
         $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $usuario = $stmt->fetch();
 
         if ($usuario) {
-            
             $token = bin2hex(random_bytes(32));
             $expira = date('Y-m-d H:i:s', strtotime('+30 minutes'));
 
@@ -26,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'id' => $usuario['id']
             ]);
 
-            
             $link = "redefinir_senha.php?token=" . $token;
             $sucesso = "Link gerado! Como estamos em teste, clique aqui para redefinir: <br><br><a href='$link' class='btn btn-primary'>Redefinir Senha Agora</a>";
         } else {
