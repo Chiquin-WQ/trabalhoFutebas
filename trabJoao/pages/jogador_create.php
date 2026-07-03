@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $jogador = new Jogador(
             null,
             $nome,
-            $idade,
             $posicao,
+            $idade,
             $numeroCamisa,
             $overall,
             $foto,
