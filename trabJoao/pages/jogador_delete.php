@@ -1,9 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../config/database.php'; 
 require_once __DIR__ . '/../repository/JogadorRepository.php';
 
-$repo = new JogadorRepository();
+
+$repo = new JogadorRepository($pdo);
 
 $id = 0;
 
@@ -23,7 +25,7 @@ if ($jogador === null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $repo->excluir($jogador->getId());
+    $repo->deletar($jogador->getId());
     header('Location: index.php');
     exit;
 }
@@ -32,7 +34,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h2>Dispensar Jogador ❌</h2>
+    <h2>Dispensar Jogador </h2>
     <a href="index.php" class="btn btn-ghost">← Voltar</a>
 </div>
 
@@ -62,9 +64,10 @@ require_once __DIR__ . '/../includes/header.php';
                 <button type="submit" class="btn btn-excluir">
                     Sim, dispensar
                 </button>
+                <!-- Corrigido o fechamento da tag de </button> para </a> -->
                 <a href="index.php" class="btn btn-ghost">
                     Cancelar
-                </button>
+                </a>
             </div>
         </form>
     </div>
