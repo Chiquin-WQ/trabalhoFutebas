@@ -1,9 +1,19 @@
 <?php
 
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../config/database.php'; 
 require_once __DIR__ . '/../repository/JogadorRepository.php';
+require_once __DIR__ . '/../repository/TimeRepository.php'; 
 
-$repository = new JogadorRepository();
+
+$repository = new JogadorRepository($pdo);
+
+try {
+    $timeRepository = new TimeRepository();
+    $timesCadastrados = $timeRepository->listarTodos();
+} catch (Exception $e) {
+    $timesCadastrados = [];
+}
 
 $id = (int) ($_GET['id'] ?? 0);
 
@@ -83,6 +93,18 @@ require_once __DIR__ . '/../includes/header.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Editar Jogador — Futebas Club</title>
   <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+      /* Mantendo o padrão visual do seu projeto para o select */
+      select {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #0400ff;
+          border-radius: 4px;
+          background-color: white;
+          box-sizing: border-box;
+          font-size: 14px;
+      }
+  </style>
 </head>
 <body>
 
@@ -123,9 +145,17 @@ require_once __DIR__ . '/../includes/header.php';
         <input type="number" id="overall" name="overall" value="<?= $jogador->getOverall() ?>" min="1" max="99">
       </div>
 
+      <!-- TROCAMOS O INPUT PELO SELECT DINÂMICO QUE COMPARA O ID DO JOGADOR -->
       <div class="form-group">
-        <label for="id_time">ID da Seleção / Time</label>
-        <input type="number" id="id_time" name="id_time" value="<?= $jogador->getIdTime() ?>" required>
+        <label for="id_time">Time / Seleção</label>
+        <select id="id_time" name="id_time" required>
+            <option value="">-- Selecione um Time --</option>
+            <?php foreach ($timesCadastrados as $time): ?>
+                <option value="<?= $time['id'] ?>" <?= $time['id'] == $jogador->getIdTime() ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($time['nome']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
       </div>
 
       <div class="form-group">
