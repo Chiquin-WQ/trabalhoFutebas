@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $foto = $nomeArquivo;
         }
 
-        // --- APAGUE A LINHA ANTIGA DO $repository->atualizar E COLE ISTO NO LUGAR: ---
+       
         
         $dadosJogador = [
             'id'            => $id,
